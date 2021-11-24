@@ -339,7 +339,7 @@ class Term(object):
                 continue
             char = self.translate(byte.to_bytes(1, byteorder='big'))
             textsurface, textrect = self.font.render(char, fgcolor=self.getfgcolor(), bgcolor=self.getbgcolor())
-            self.surface.blit(textsurface, ((self.cursorx-1)*self.fontx, (self.cursory-1)*self.fonty))
+            self.surface.blit(textsurface, (self.getcursorx(), self.getcursory()))
             #print(char, textsurface, textrect, self.cursorx*self.fontx, self.cursory*self.fonty)
             self.cursorx = min(self.cursorx+1, self.cols)
         return
