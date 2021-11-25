@@ -7,8 +7,8 @@ import sys
 import argparse
 def main():
     parser = argparse.ArgumentParser(description="ANSI-BBS terminal.")
-    parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host:port', help="Make a TCP connection.")
-    parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="Replay a capture log.")
+    parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host:port', help="Make a TCP connection")
+    parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="Replay a capture log")
     args = parser.parse_args()
     #print(vars(args))
     endpoints = {'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
