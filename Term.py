@@ -91,6 +91,7 @@ class Term(object):
         self.controlsequencedata = b''
         self.controlsequencecmdseen = set()
         self.lograwinc = False
+        self.endpoint = False
         return
     def attach(self, endpoint):
         self.endpoint = endpoint
@@ -344,30 +345,32 @@ class Term(object):
             self.cursorx = min(self.cursorx+1, self.cols)
         return
     def processkeyboardinput(self, key, mod):
+        if self.endpoint:
         #special keys with local meaning
-        if key==pygame.K_PRINT:
-            self.lograwinc = not self.lograwinc
-            print(f"Log raw incoming: {self.lograwinc}.")
-            return
-        if mod & pygame.KMOD_SHIFT:
-            if key==pygame.K_ESCAPE:
-                self.endpoint.user(0)
+            if key==pygame.K_PRINT:
+                self.lograwinc = not self.lograwinc
+                print(f"Log raw incoming: {self.lograwinc}.")
                 return
-            elif key==pygame.K_F1:
-                self.endpoint.user(1)
+            if mod & pygame.KMOD_SHIFT:
+                if key==pygame.K_ESCAPE:
+                    self.endpoint.close()
+                    return
+                elif key==pygame.K_F1:
+                    self.endpoint.user(1)
+                    return
+                elif key==pygame.K_F2:
+                    self.endpoint.user(2)
+                    return
+                elif key==pygame.K_F3:
+                    self.endpoint.user(3)
+                    return
+                elif key==pygame.K_F4:
+                    self.endpoint.user(4)
+                    return
+            #rest of events go to keyb translator
+            if data := self.keyboardtranslator.translate(key, mod):
+                self.endpoint.write(data)
                 return
-            elif key==pygame.K_F2:
-                self.endpoint.user(2)
-                return
-            elif key==pygame.K_F3:
-                self.endpoint.user(3)
-                return
-            elif key==pygame.K_F4:
-                self.endpoint.user(4)
-                return
-        #rest of events go to keyb translator
-        if data := self.keyboardtranslator.translate(key, mod):
-            self.endpoint.write(data)
         return
     def loop(self):
         fh = open("capture.log", "wb")
@@ -375,8 +378,8 @@ class Term(object):
             event = pygame.fastevent.wait()
             if event.type==pygame.QUIT:
                 print("QUIT event received.")
-                #FIXME: close endpoint.
-                self.endpoint.close()
+                if self.endpoint:
+                    self.endpoint.close()
                 break
             if event.type==self.readevent:
                 #print(f"data: {event.data}")
@@ -384,6 +387,7 @@ class Term(object):
                     fh.write(event.data)
                 self.processoutput(event.data)
             if event.type==self.closeevent:
+                self.endpoint = False
                 print("Connection closed.")
                 print(f"Commands seen: {b''.join(self.controlsequencecmdseen)}")
             if event.type==pygame.KEYDOWN:
