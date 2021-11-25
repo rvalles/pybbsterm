@@ -375,6 +375,10 @@ class Term(object):
                 elif key==pygame.K_F4:
                     self.endpoint.user(4)
                     return
+            if mod & pygame.KMOD_ALT:
+                if key==ord('x'):
+                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                    return
             #rest of events go to keyb translator
             if data := self.keyboardtranslator.translate(key, mod):
                 self.endpoint.write(data)
