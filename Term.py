@@ -3,6 +3,7 @@ import pygame.freetype
 import pygame.fastevent
 import threading
 import struct
+import time
 class Term(object):
     CSI = '\x1b[' #ESC[
     colortable_guess = [
@@ -90,7 +91,7 @@ class Term(object):
         self.controlsequence = False
         self.controlsequencedata = b''
         self.controlsequencecmdseen = set()
-        self.lograwinc = False
+        self.capture = False
         self.endpoint = False
         return
     def attach(self, endpoint):
@@ -348,8 +349,15 @@ class Term(object):
         if self.endpoint:
         #special keys with local meaning
             if key==pygame.K_PRINT:
-                self.lograwinc = not self.lograwinc
-                print(f"Log raw incoming: {self.lograwinc}.")
+                if self.capture:
+                    self.capture.close()
+                    self.capture = None
+                    print(f"Capture finished.")
+                else:
+                    capturefilename = time.strftime("capture_%Y%m%dT%H%M%SZ.log", time.gmtime())
+                    print(f"Capture started, file: {capturefilename}.")
+                    capturefilepath = capturefilename
+                    self.capture = open(capturefilepath, "wb")
                 return
             if mod & pygame.KMOD_SHIFT:
                 if key==pygame.K_ESCAPE:
@@ -373,7 +381,6 @@ class Term(object):
                 return
         return
     def loop(self):
-        fh = open("capture.log", "wb")
         while True:
             event = pygame.fastevent.wait()
             if event.type==pygame.QUIT:
@@ -383,8 +390,8 @@ class Term(object):
                 break
             if event.type==self.readevent:
                 #print(f"data: {event.data}")
-                if self.lograwinc:
-                    fh.write(event.data)
+                if self.capture:
+                    self.capture.write(event.data)
                 self.processoutput(event.data)
             if event.type==self.closeevent:
                 self.endpoint = False
