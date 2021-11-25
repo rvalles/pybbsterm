@@ -93,6 +93,7 @@ class Term(object):
         self.controlsequencecmdseen = set()
         self.capture = False
         self.endpoint = False
+        self.scale = 1
         return
     def attach(self, endpoint):
         self.endpoint = endpoint
@@ -102,12 +103,15 @@ class Term(object):
     def setkeyboardtranslator(self, translator):
         self.keyboardtranslator = translator
         return
+    def setwindowmode(self, x, y):
+        self.screen = pygame.display.set_mode((x, y))
+        return
     def setfont(self, fontpath):
         self.font = pygame.freetype.Font(fontpath)
         (x, y, self.fontx, self.fonty) = self.font.get_rect("T")
         self.surfacex = self.cols*self.fontx
         self.surfacey = self.rows*self.fonty
-        self.screen = pygame.display.set_mode((self.surfacex, self.surfacey))
+        self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
         self.surface = pygame.Surface((self.surfacex, self.surfacey))
         return
     def translate(self, byte):
@@ -350,6 +354,17 @@ class Term(object):
             if key==ord('x'):
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
                 return
+        if mod & pygame.KMOD_CTRL:
+            if key==pygame.K_PLUS or key==pygame.K_KP_PLUS:
+                self.scale += 1
+                print(f"Output scale: {self.scale}x")
+                self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
+                return
+            if key==pygame.K_MINUS or key==pygame.K_KP_MINUS:
+                self.scale = max(self.scale-1, 1)
+                print(f"Output scale: {self.scale}x")
+                self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
+                return
         if self.endpoint:
         #special keys with local meaning
             if key==pygame.K_PRINT:
@@ -404,8 +419,11 @@ class Term(object):
             if event.type==pygame.KEYDOWN:
                 #print(f"keyb input mod: {event.mod}, key: {event.key}")
                 self.processkeyboardinput(event.key, event.mod)
-            self.screen.blit(self.surface, (0, 0))
-            self.screen.fill(color=self.getcursorcolor(), rect=(self.getcursorx(), self.getcursory(), self.fontx, self.fonty))
+            if self.scale == 1:
+                self.screen.blit(self.surface, (0, 0))
+            else:
+                self.screen.blit(pygame.transform.scale(self.surface, (self.surfacex*self.scale, self.surfacey*self.scale)), (0, 0))
+            self.screen.fill(color=self.getcursorcolor(), rect=(self.getcursorx()*self.scale, self.getcursory()*self.scale, self.fontx*self.scale, self.fonty*self.scale))
             pygame.display.flip()
         pygame.quit()
         return
