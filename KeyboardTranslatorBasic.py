@@ -54,7 +54,7 @@ class KeyboardTranslatorBasic(object):
                 return key.to_bytes(1, byteorder='big')
         elif key>=0x20 and key <= 0x7b:
             return key.to_bytes(1, byteorder='big')
-        elif key==pygame.K_RETURN:
+        elif key==pygame.K_RETURN or key==pygame.K_KP_ENTER:
             return b'\r'
         elif key==pygame.K_TAB:
             return b'\t'
