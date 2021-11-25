@@ -238,14 +238,14 @@ class Term(object):
                     self.bright = True
                     continue
                 if pX == 2: #Dim Intensity
-                    print("Dim Intensity requested, bright instead.")
+                    print("CS m Dim Intensity requested, bright instead.")
                     self.bright = True
                     continue
                 if pX == 5:
-                    print("Blink (slow) requested, not handled.")
+                    print("CS m Blink (slow) requested, not handled.")
                     continue
                 if pX == 6:
-                    print("Blink (fast) requested, not handled.")
+                    print("CS m Blink (fast) requested, not handled.")
                     continue
                 if pX == 7: #Negative Image - Reverses FG and BG	
                     self.fgcolor, self.bgcolor = self.bgcolor, self.fgcolor
@@ -254,7 +254,7 @@ class Term(object):
                     self.bgcolor = self.fgcolor
                     continue
                 if pX == 10: #Not ANSI-BBS: Set font to default font.
-                    print("Default font requested.")
+                    print("CS m Default font requested.")
                     continue
                 if pX == 22: #Normal intensity
                     self.bright = False
