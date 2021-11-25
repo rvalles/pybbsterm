@@ -15,6 +15,7 @@ class EndpointReplay(object):
         return
     def loop(self):
         self.fh = open(self.path, "rb")
+        print("Replay log: Shift-F1 to F4 to advance 1, 4, 16, 64 characters respectively.")
         return
     def write(self, data):
         return
