@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-from Term import Term
-from EndpointTCP import EndpointTCP
-from EndpointReplay import EndpointReplay
-from KeyboardTranslatorBasic import KeyboardTranslatorBasic
 import sys
 import argparse
 def main():
@@ -25,13 +21,17 @@ def main():
             port = int(tcpparam[1])
         else:
             port = 23
+        from EndpointTCP import EndpointTCP
         endpoint = EndpointTCP(host=host, port=port)
     if args.replay:
+        from EndpointReplay import EndpointReplay
         endpoint = EndpointReplay(path=args.replay)
     fontpath = "/usr/share/fonts/misc/Bm437_Amstrad_PC-2y.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_VGA_9x16.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_XGA-AI_12x23.otb"
+    from Term import Term
     term = Term()
+    from KeyboardTranslatorBasic import KeyboardTranslatorBasic
     translator = KeyboardTranslatorBasic()
     term.setkeyboardtranslator(translator)
     term.setfont(fontpath)
