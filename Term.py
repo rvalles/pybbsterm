@@ -346,6 +346,10 @@ class Term(object):
             self.cursorx = min(self.cursorx+1, self.cols)
         return
     def processkeyboardinput(self, key, mod):
+        if mod & pygame.KMOD_ALT:
+            if key==ord('x'):
+                pygame.event.post(pygame.event.Event(pygame.QUIT))
+                return
         if self.endpoint:
         #special keys with local meaning
             if key==pygame.K_PRINT:
@@ -374,10 +378,6 @@ class Term(object):
                     return
                 elif key==pygame.K_F4:
                     self.endpoint.user(4)
-                    return
-            if mod & pygame.KMOD_ALT:
-                if key==ord('x'):
-                    pygame.event.post(pygame.event.Event(pygame.QUIT))
                     return
             #rest of events go to keyb translator
             if data := self.keyboardtranslator.translate(key, mod):
