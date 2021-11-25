@@ -3,14 +3,27 @@ import sys
 import argparse
 def main():
     parser = argparse.ArgumentParser(description="ANSI-BBS terminal.")
+    parser.add_argument('-s', '--serial', dest='serial', action='store', metavar='dev:rate', help="attach to a serial port")
     parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host:port', help="make a TCP connection")
     parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="replay a capture log")
     args = parser.parse_args()
     #print(vars(args))
-    endpoints = {'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
+    endpoints = {'serial', 'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
     if len(endpoints) != 1:
         parser.print_usage()
         sys.exit(2)
+    if args.serial:
+        serialparam = args.serial.split(':')
+        if len(serialparam) > 2:
+            print("Serial: Too many colons.")
+            sys.exit(2)
+        serialdev = serialparam[0]
+        if len(serialparam) > 1:
+            serialrate = int(serialparam[1])
+        else:
+            serialrate = 115200
+        from EndpointSerial import EndpointSerial
+        endpoint = EndpointSerial(device=serialdev, rate=serialrate)
     if args.tcp:
         tcpparam = args.tcp.split(':')
         if len(tcpparam) > 2:
