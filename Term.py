@@ -349,6 +349,17 @@ class Term(object):
             #print(char, textsurface, textrect, self.cursorx*self.fontx, self.cursory*self.fonty)
             self.cursorx = min(self.cursorx+1, self.cols)
         return
+    def capturetoggle(self):
+        if self.capture:
+            self.capture.close()
+            self.capture = None
+            print(f"Capture finished.")
+        else:
+            capturefilename = time.strftime("capture_%Y%m%dT%H%M%SZ.log", time.gmtime())
+            print(f"Capture started, file: {capturefilename}.")
+            capturefilepath = capturefilename
+            self.capture = open(capturefilepath, "wb")
+        return
     def processkeyboardinput(self, key, mod):
         if mod & pygame.KMOD_ALT:
             if key==ord('x'):
@@ -368,15 +379,7 @@ class Term(object):
         if self.endpoint:
         #special keys with local meaning
             if key==pygame.K_PRINT:
-                if self.capture:
-                    self.capture.close()
-                    self.capture = None
-                    print(f"Capture finished.")
-                else:
-                    capturefilename = time.strftime("capture_%Y%m%dT%H%M%SZ.log", time.gmtime())
-                    print(f"Capture started, file: {capturefilename}.")
-                    capturefilepath = capturefilename
-                    self.capture = open(capturefilepath, "wb")
+                self.capturetoggle()
                 return
             if mod & pygame.KMOD_SHIFT:
                 if key==pygame.K_ESCAPE:
@@ -393,6 +396,9 @@ class Term(object):
                     return
                 elif key==pygame.K_F4:
                     self.endpoint.user(4)
+                    return
+                elif key==pygame.K_F12:
+                    self.capturetoggle()
                     return
             #rest of events go to keyb translator
             if data := self.keyboardtranslator.translate(key, mod):
