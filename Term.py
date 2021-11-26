@@ -309,11 +309,17 @@ class Term(object):
                 if pX == 25: #Steady (not blinking)
                     self.blink = False
                     continue
-                if pX >= 30 and pX <= 37:
+                if pX >= 30 and pX <= 37: #Set foreground color
                     self.fgcolor = pX%10
                     continue
-                if pX >= 40 and pX <= 47:
+                if pX == 39: #Not ANSI-BBS: Default foreground color
+                    self.fgcolor = self.fgcolordefault
+                    continue
+                if pX >= 40 and pX <= 47: #Set background color
                     self.bgcolor = pX%10
+                    continue
+                if pX == 49: #Not ANSI-BBS: Default background color
+                    self.bgcolor = self.bgcolordefault
                     continue
                 else:
                     print(f"CS m unimpl pX={pX}")
