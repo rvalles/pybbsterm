@@ -141,6 +141,7 @@ class Term(object):
             (self.fonty, self.fontx, ppemx, ppemy) = sizes[size]
         else:
             (x, y, self.fontx, self.fonty) = self.font.get_rect("#") #FIXME: Ugly fallback.
+            print(f"detected size: {x}, {y}, {self.fontx}, {self.fonty}")
         if self.font.path.endswith('ttf'):
             self.font.pad = True
         self.surfacex = self.cols*self.fontx
