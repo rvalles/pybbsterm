@@ -6,13 +6,13 @@ class KeyboardTranslatorBasic(object):
     def translate(self, key, mod):
         if mod & pygame.KMOD_SHIFT: #FIXME: Hardcoded UK layout mess
             if key==ord('`'):
-                key = ord('¬')
+                return b'\xaa' #FIXME: hardcoded cp437
             if key==ord('1'):
                 key = ord('!')
             if key==ord('2'):
                 key = ord('"')
             if key==ord('3'):
-                key = ord('£')
+                return b'\x9c' #FIXME: hardcoded cp437
             if key==ord('4'):
                 key = ord('$')
             if key==ord('5'):
@@ -49,10 +49,11 @@ class KeyboardTranslatorBasic(object):
                 key = ord('?')
             if key==ord('\\'):
                 key = ord('|')
-            elif key>=0x20 and key <= 0x7b:
+            elif key >= ord('a') and key <= ord('z'):
                 key = ord(chr(key).upper())
+            if key >= 0x20 and key <= 0x7e:
                 return key.to_bytes(1, byteorder='big')
-        elif key>=0x20 and key <= 0x7b:
+        elif key >= 0x20 and key <= 0x7b:
             return key.to_bytes(1, byteorder='big')
         elif key==pygame.K_RETURN or key==pygame.K_KP_ENTER:
             return b'\r'
