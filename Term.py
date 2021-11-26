@@ -154,6 +154,9 @@ class Term(object):
             self.font = pygame.freetype.Font(fontpath, fontsize)
         else:
             self.font = pygame.freetype.Font(fontpath)
+        if not self.font.fixed_width:
+            print(f"Font {str(self.font)} is not fixed width. Exiting.")
+            return None
         self.adjusttofont()
         return str(self.font)
     def setfontbyname(self, fontname, fontsize):
@@ -161,6 +164,9 @@ class Term(object):
             self.font = pygame.freetype.SysFont(fontname, fontsize)
         else:
             self.font = pygame.freetype.SysFont(fontname, 12)
+        if not self.font.fixed_width:
+            print(f"Font {str(self.font)} is not fixed width. Exiting.")
+            return None
         self.adjusttofont()
         return str(self.font)
     def setcolorscheme(self, scheme):

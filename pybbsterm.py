@@ -80,6 +80,8 @@ def main():
         font = term.setfontbypath(fontpath, fontsize)
     else:
         font = term.setfontbyname(fontnamedefault, 24)
+    if not font:
+        sys.exit(2)
     print(f"Selected font: {font}")
     if args.colorscheme:
         result = term.setcolorscheme(args.colorscheme)
