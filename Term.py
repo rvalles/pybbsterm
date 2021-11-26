@@ -301,7 +301,7 @@ class Term(object):
                     self.bgcolor = self.fgcolor
                     continue
                 if pX == 10: #Not ANSI-BBS: Set font to default font.
-                    print("CS m Default font requested.")
+                    print("CS m Default font requested, not handled.")
                     continue
                 if pX == 22: #Normal intensity
                     self.bright = False
