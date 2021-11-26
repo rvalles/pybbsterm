@@ -129,14 +129,29 @@ class Term(object):
     def setwindowmode(self, x, y):
         self.screen = pygame.display.set_mode((x, y))
         return
-    def setfont(self, fontpath):
-        self.font = pygame.freetype.Font(fontpath)
-        (x, y, self.fontx, self.fonty) = self.font.get_rect("T")
+    def adjusttofont(self):
+        self.font.pad = True
+        (x, y, self.fontx, self.fonty) = self.font.get_rect("#") #FIXME: Get from get_sizes() or else.
+        print(self.font.get_sizes())
         self.surfacex = self.cols*self.fontx
         self.surfacey = self.rows*self.fonty
         self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
         self.surface = pygame.Surface((self.surfacex, self.surfacey))
         return
+    def setfontbypath(self, fontpath, fontsize):
+        if fontsize:
+            self.font = pygame.freetype.Font(fontpath, fontsize)
+        else:
+            self.font = pygame.freetype.Font(fontpath)
+        self.adjusttofont()
+        return str(self.font)
+    def setfontbyname(self, fontname, fontsize):
+        if fontsize:
+            self.font = pygame.freetype.SysFont(fontname, fontsize)
+        else:
+            self.font = pygame.freetype.SysFont(fontname, 12)
+        self.adjusttofont()
+        return str(self.font)
     def setcolorscheme(self, scheme):
         if not scheme in self.colortable:
             return list(self.colortable.keys())
