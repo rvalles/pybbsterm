@@ -47,7 +47,7 @@ def main():
         print("Specify font or fontfile, not both.")
         sys.exit(2)
     fontsize = False
-    fontnamedefault = ['dejavusansmono', 'courier']
+    fontnamedefault = ['terminus', 'profont', 'consolas', 'notosansmono', 'dejavusansmono', 'courier']
     fontpath = "/usr/share/fonts/misc/Bm437_Amstrad_PC-2y.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_VGA_9x16.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_XGA-AI_12x23.otb"
