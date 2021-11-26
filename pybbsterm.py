@@ -31,7 +31,7 @@ def main():
     if args.tcp:
         tcpparam = args.tcp.split(':')
         if len(tcpparam) > 2:
-            print("Malformed hostname")
+            print("Malformed hostname.")
             sys.exit(2)
         host = tcpparam[0]
         if len(tcpparam) > 1:
