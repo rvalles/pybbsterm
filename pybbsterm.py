@@ -59,7 +59,7 @@ def main():
             print("Fontpath: too many comma.")
             sys.exit(2)
         if len(fontfileparam) > 1:
-            fontsize = fontfileparam[1]
+            fontsize = float(fontfileparam[1])
         fontpath = fontfileparam[0]
     if args.font:
         fontparam = args.font.split(',')
@@ -67,7 +67,7 @@ def main():
             print("Fontpath: too many comma.")
             sys.exit(2)
         if len(fontparam) > 1:
-            fontsize = fontparam[1]
+            fontsize = float(fontparam[1])
         fontname = fontparam[0]
     from Term import Term
     term = Term()
