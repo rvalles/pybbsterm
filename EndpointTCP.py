@@ -7,14 +7,14 @@ class EndpointTCP(object):
         self.host = kwargs["host"]
         self.port = kwargs["port"]
         self.sockbufsize = 256
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((self.host, self.port))
         return
     def setuploop(self, **kwargs):
         if (not "readevent" in kwargs) or (not "closeevent" in kwargs):
             raise ValueError()
         self.readevent = kwargs["readevent"]
         self.closeevent = kwargs["closeevent"]
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect((self.host, self.port))
         return
     def loop(self):
         while True:

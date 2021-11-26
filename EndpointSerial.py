@@ -6,13 +6,13 @@ class EndpointSerial(object):
             raise ValueError()
         self.serialdev = kwargs['device']
         self.serialrate = kwargs['rate']
-        self.serial = serial.Serial(self.serialdev, self.serialrate, exclusive=True)
         return
     def setuploop(self, **kwargs):
         if (not "readevent" in kwargs) or (not "closeevent" in kwargs):
             raise ValueError()
         self.readevent = kwargs["readevent"]
         self.closeevent = kwargs["closeevent"]
+        self.serial = serial.Serial(self.serialdev, self.serialrate, exclusive=True)
         return
     def loop(self):
         while True:
