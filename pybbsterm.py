@@ -3,8 +3,8 @@ import sys
 import argparse
 def main():
     parser = argparse.ArgumentParser(description="ANSI-BBS terminal.")
-    parser.add_argument('-s', '--serial', dest='serial', action='store', metavar='dev:rate', help="attach to a serial port")
-    parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host:port', help="make a TCP connection")
+    parser.add_argument('-s', '--serial', dest='serial', action='store', metavar='dev[,rate]', help="attach to a serial port")
+    parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host[:port]', help="make a TCP connection")
     parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="replay a capture log")
     parser.add_argument('--scheme', dest='colorscheme', action='store', metavar='colorscheme', help="pick a color scheme")
     args = parser.parse_args()
@@ -14,7 +14,7 @@ def main():
         parser.print_usage()
         sys.exit(2)
     if args.serial:
-        serialparam = args.serial.split(':')
+        serialparam = args.serial.split(',')
         if len(serialparam) > 2:
             print("Serial: Too many colons.")
             sys.exit(2)
