@@ -149,7 +149,6 @@ class Term(object):
         self.color = self.colortable[scheme]
         self.fgcolordefault = len(self.color[0])-1
         self.bgcolordefault = 0
-        print(f"Default fg: {self.fgcolordefault}, bg: {self.fgcolordefault}")
         self.fgcolor = self.fgcolordefault
         self.bgcolor = self.bgcolordefault
         return scheme
