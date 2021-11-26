@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import sys
 import argparse
 def main():
@@ -7,6 +8,8 @@ def main():
     parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host[:port]', help="make a TCP connection")
     parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="replay a capture log")
     parser.add_argument('--scheme', dest='colorscheme', action='store', metavar='colorscheme', help="pick a color scheme")
+    parser.add_argument('--font', dest='font', action='store', metavar='font[,size]', help="request font by name and size ")
+    parser.add_argument('--fontfile', dest='fontfile', action='store', metavar='fontfile[,size]', help="load font file with size")
     args = parser.parse_args()
     #print(vars(args))
     endpoints = {'serial', 'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
@@ -40,15 +43,44 @@ def main():
     if args.replay:
         from EndpointReplay import EndpointReplay
         endpoint = EndpointReplay(path=args.replay)
+    if len({'font', 'fontfile'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None}))>1:
+        print("Specify font or fontfile, not both.")
+        sys.exit(2)
+    fontsize = False
+    fontnamedefault = ['dejavusansmono', 'courier']
     fontpath = "/usr/share/fonts/misc/Bm437_Amstrad_PC-2y.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_VGA_9x16.otb"
     #fontpath = "/usr/share/fonts/misc/Bm437_IBM_XGA-AI_12x23.otb"
+    if not os.path.isfile(fontpath):
+        del fontpath
+    if args.fontfile:
+        fontfileparam = args.fontfile.split(',')
+        if len(fontfileparam)>2:
+            print("Fontpath: too many comma.")
+            sys.exit(2)
+        if len(fontfileparam) > 1:
+            fontsize = fontfileparam[1]
+        fontpath = fontfileparam[0]
+    if args.font:
+        fontparam = args.font.split(',')
+        if len(fontparam)>2:
+            print("Fontpath: too many comma.")
+            sys.exit(2)
+        if len(fontparam) > 1:
+            fontsize = fontparam[1]
+        fontname = fontparam[0]
     from Term import Term
     term = Term()
     from KeyboardTranslatorBasic import KeyboardTranslatorBasic
     translator = KeyboardTranslatorBasic()
     term.setkeyboardtranslator(translator)
-    term.setfont(fontpath)
+    if 'fontname' in locals():
+        font = term.setfontbyname(fontname, fontsize)
+    elif 'fontpath' in locals():
+        font = term.setfontbypath(fontpath, fontsize)
+    else:
+        font = term.setfontbyname(fontnamedefault, 24)
+    print(f"Selected font: {font}")
     if args.colorscheme:
         result = term.setcolorscheme(args.colorscheme)
         if result != args.colorscheme:
