@@ -8,61 +8,92 @@ class Term(object):
     CSI = '\x1b[' #ESC[
     colortable = {
         'guess' : [
-            (0, 0, 0), #black
-            (160, 0, 0), #red
-            (0, 160, 0), #green
-            (160, 160, 0), #yellow
-            (0, 0, 160), #blue
-            (160, 0, 160), #magenta
-            (0, 160, 160), #cyan
-            (160, 160, 160), #white
-            #bright
-            (80, 80, 80), #black
-            (255, 0, 0), #red
-            (0, 255, 0), #green
-            (255, 255, 0), #yellow
-            (0, 0, 255), #blue
-            (255, 0, 255), #magenta
-            (0, 255, 255), #cyan
-            (255, 255, 255), #white
+            [ #normal intensity
+                (0, 0, 0), #black
+                (160, 0, 0), #red
+                (0, 160, 0), #green
+                (160, 160, 0), #yellow
+                (0, 0, 160), #blue
+                (160, 0, 160), #magenta
+                (0, 160, 160), #cyan
+                (160, 160, 160), #white
+                ],
+            [ #bright intensity
+                (80, 80, 80), #black
+                (255, 0, 0), #red
+                (0, 255, 0), #green
+                (255, 255, 0), #yellow
+                (0, 0, 255), #blue
+                (255, 0, 255), #magenta
+                (0, 255, 255), #cyan
+                (255, 255, 255) #white
+                ]
             ],
         'vga' : [
-            (0, 0, 0), #black
-            (170, 0, 0), #red
-            (0, 170, 0), #green
-            (170, 85, 0), #yellow
-            (0, 0, 170), #blue
-            (170, 0, 170), #magenta
-            (0, 170, 170), #cyan
-            (170, 170, 170), #white
-            #bright
-            (85, 85, 85), #black
-            (255, 85, 85), #red
-            (85, 255, 85), #green
-            (255, 255, 85), #yellow
-            (85, 85, 255), #blue
-            (255, 85, 255), #magenta
-            (85, 255, 255), #cyan
-            (255, 255, 255), #white
-        ],
+            [ #normal intensity
+                (0, 0, 0), #black
+                (170, 0, 0), #red
+                (0, 170, 0), #green
+                (170, 85, 0), #yellow
+                (0, 0, 170), #blue
+                (170, 0, 170), #magenta
+                (0, 170, 170), #cyan
+                (170, 170, 170) #white
+                ],
+            [ #bright intensity
+                (85, 85, 85), #black
+                (255, 85, 85), #red
+                (85, 255, 85), #green
+                (255, 255, 85), #yellow
+                (85, 85, 255), #blue
+                (255, 85, 255), #magenta
+                (85, 255, 255), #cyan
+                (255, 255, 255) #white
+                ]
+            ],
         'syncterm' : [
-            (0, 0, 0), #black
-            (168, 0, 0), #red
-            (0, 168, 0), #green
-            (168, 84, 0), #yellow
-            (0, 0, 168), #blue
-            (168, 0, 168), #magenta
-            (0, 168, 168), #cyan
-            (168, 168, 168), #white
-            #bright
-            (84, 84, 84), #black
-            (255, 84, 84), #red
-            (84, 255, 84), #green
-            (255, 255, 84), #yellow
-            (84, 84, 255), #blue
-            (255, 84, 255), #magenta
-            (84, 255, 255), #cyan
-            (255, 255, 255), #white
+            [ #normal intensity
+                (0, 0, 0), #black
+                (168, 0, 0), #red
+                (0, 168, 0), #green
+                (168, 84, 0), #yellow
+                (0, 0, 168), #blue
+                (168, 0, 168), #magenta
+                (0, 168, 168), #cyan
+                (168, 168, 168) #white
+                ],
+            [ #bright intensity
+                (84, 84, 84), #black
+                (255, 84, 84), #red
+                (84, 255, 84), #green
+                (255, 255, 84), #yellow
+                (84, 84, 255), #blue
+                (255, 84, 255), #magenta
+                (84, 255, 255), #cyan
+                (255, 255, 255) #white
+                ]
+            ],
+        'amber' : [
+            [ #normal intensity
+                (16, 16, 0), #black
+                (224, 224, 72), #red
+                (224, 224, 72), #green
+                (224, 224, 72), #yellow
+                (224, 224, 72), #blue
+                (224, 224, 72), #magenta
+                (224, 224, 72), #cyan
+                (224, 224, 72), #white
+                ],
+            [ #bright intensity
+                (64, 64, 16), #black
+                (255, 255, 128), #red
+                (255, 255, 128), #green
+                (255, 255, 128), #yellow
+                (255, 255, 128), #blue
+                (255, 255, 128), #magenta
+                (255, 255, 128), #cyan
+                (255, 255, 128), #white
+                ]
             ]
         }
     def __init__(self, **kwargs):
@@ -77,11 +108,7 @@ class Term(object):
         self.escape = False
         #self.color = self.colortable_guess
         #self.color = self.colortable_syncterm
-        self.color = self.colortable['vga']
-        self.fgcolordefault = 7
-        self.bgcolordefault = 0
-        self.fgcolor = self.fgcolordefault
-        self.bgcolor = self.bgcolordefault
+        self.setcolorscheme('vga')
         #self.fgcolordefault = (224, 224, 128)
         #self.bgcolordefault = (32, 16, 0)
         #self.fgcolordefaultbright = (255, 255, 160)
@@ -116,13 +143,26 @@ class Term(object):
         self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
         self.surface = pygame.Surface((self.surfacex, self.surfacey))
         return
+    def setcolorscheme(self, scheme):
+        if not scheme in self.colortable:
+            return self.colortable.keys()
+        self.color = self.colortable[scheme]
+        self.fgcolordefault = len(self.color[0])-1
+        self.bgcolordefault = 0
+        print(f"Default fg: {self.fgcolordefault}, bg: {self.fgcolordefault}")
+        self.fgcolor = self.fgcolordefault
+        self.bgcolor = self.bgcolordefault
+        return scheme
     def translate(self, byte):
         char = byte.decode(self.encoding)
         return char
     def getfgcolor(self):
-        return self.color[self.fgcolor + self.bright*8]
+        if self.bright:
+            return self.color[1][self.fgcolor]
+        else:
+            return self.color[0][self.fgcolor]
     def getbgcolor(self):
-        return self.color[self.bgcolor]
+        return self.color[0][self.bgcolor]
     def getcursorx(self):
         return self.fontx*(self.cursorx-1)
     def getcursory(self):

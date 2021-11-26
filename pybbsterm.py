@@ -6,6 +6,7 @@ def main():
     parser.add_argument('-s', '--serial', dest='serial', action='store', metavar='dev:rate', help="attach to a serial port")
     parser.add_argument('-t', '--tcp', dest='tcp', action='store', metavar='host:port', help="make a TCP connection")
     parser.add_argument('-r', '--replay', dest='replay', action='store', metavar='logfile', help="replay a capture log")
+    parser.add_argument('--scheme', dest='colorscheme', action='store', metavar='colorscheme', help="pick a color scheme")
     args = parser.parse_args()
     #print(vars(args))
     endpoints = {'serial', 'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
@@ -48,6 +49,12 @@ def main():
     translator = KeyboardTranslatorBasic()
     term.setkeyboardtranslator(translator)
     term.setfont(fontpath)
+    if args.colorscheme:
+        result = term.setcolorscheme(args.colorscheme)
+        if result != args.colorscheme:
+            print(f"Color schemes available: {result}")
+            sys.exit(2)
+        del result
     term.attach(endpoint)
     term.loop()
     return
