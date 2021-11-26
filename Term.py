@@ -6,63 +6,65 @@ import struct
 import time
 class Term(object):
     CSI = '\x1b[' #ESC[
-    colortable_guess = [
-        (0, 0, 0), #black
-        (160, 0, 0), #red
-        (0, 160, 0), #green
-        (160, 160, 0), #yellow
-        (0, 0, 160), #blue
-        (160, 0, 160), #magenta
-        (0, 160, 160), #cyan
-        (160, 160, 160), #white
-        #bright
-        (80, 80, 80), #black
-        (255, 0, 0), #red
-        (0, 255, 0), #green
-        (255, 255, 0), #yellow
-        (0, 0, 255), #blue
-        (255, 0, 255), #magenta
-        (0, 255, 255), #cyan
-        (255, 255, 255), #white
-        ]
-    colortable_vga = [
-        (0, 0, 0), #black
-        (170, 0, 0), #red
-        (0, 170, 0), #green
-        (170, 85, 0), #yellow
-        (0, 0, 170), #blue
-        (170, 0, 170), #magenta
-        (0, 170, 170), #cyan
-        (170, 170, 170), #white
-        #bright
-        (85, 85, 85), #black
-        (255, 85, 85), #red
-        (85, 255, 85), #green
-        (255, 255, 85), #yellow
-        (85, 85, 255), #blue
-        (255, 85, 255), #magenta
-        (85, 255, 255), #cyan
-        (255, 255, 255), #white
-        ]
-    colortable_syncterm = [
-        (0, 0, 0), #black
-        (168, 0, 0), #red
-        (0, 168, 0), #green
-        (168, 84, 0), #yellow
-        (0, 0, 168), #blue
-        (168, 0, 168), #magenta
-        (0, 168, 168), #cyan
-        (168, 168, 168), #white
-        #bright
-        (84, 84, 84), #black
-        (255, 84, 84), #red
-        (84, 255, 84), #green
-        (255, 255, 84), #yellow
-        (84, 84, 255), #blue
-        (255, 84, 255), #magenta
-        (84, 255, 255), #cyan
-        (255, 255, 255), #white
-        ]
+    colortable = {
+        'guess' : [
+            (0, 0, 0), #black
+            (160, 0, 0), #red
+            (0, 160, 0), #green
+            (160, 160, 0), #yellow
+            (0, 0, 160), #blue
+            (160, 0, 160), #magenta
+            (0, 160, 160), #cyan
+            (160, 160, 160), #white
+            #bright
+            (80, 80, 80), #black
+            (255, 0, 0), #red
+            (0, 255, 0), #green
+            (255, 255, 0), #yellow
+            (0, 0, 255), #blue
+            (255, 0, 255), #magenta
+            (0, 255, 255), #cyan
+            (255, 255, 255), #white
+            ],
+        'vga' : [
+            (0, 0, 0), #black
+            (170, 0, 0), #red
+            (0, 170, 0), #green
+            (170, 85, 0), #yellow
+            (0, 0, 170), #blue
+            (170, 0, 170), #magenta
+            (0, 170, 170), #cyan
+            (170, 170, 170), #white
+            #bright
+            (85, 85, 85), #black
+            (255, 85, 85), #red
+            (85, 255, 85), #green
+            (255, 255, 85), #yellow
+            (85, 85, 255), #blue
+            (255, 85, 255), #magenta
+            (85, 255, 255), #cyan
+            (255, 255, 255), #white
+        ],
+        'syncterm' : [
+            (0, 0, 0), #black
+            (168, 0, 0), #red
+            (0, 168, 0), #green
+            (168, 84, 0), #yellow
+            (0, 0, 168), #blue
+            (168, 0, 168), #magenta
+            (0, 168, 168), #cyan
+            (168, 168, 168), #white
+            #bright
+            (84, 84, 84), #black
+            (255, 84, 84), #red
+            (84, 255, 84), #green
+            (255, 255, 84), #yellow
+            (84, 84, 255), #blue
+            (255, 84, 255), #magenta
+            (84, 255, 255), #cyan
+            (255, 255, 255), #white
+            ]
+        }
     def __init__(self, **kwargs):
         pygame.init()
         pygame.freetype.init()
@@ -75,7 +77,7 @@ class Term(object):
         self.escape = False
         #self.color = self.colortable_guess
         #self.color = self.colortable_syncterm
-        self.color = self.colortable_vga
+        self.color = self.colortable['vga']
         self.fgcolordefault = 7
         self.bgcolordefault = 0
         self.fgcolor = self.fgcolordefault
