@@ -132,12 +132,15 @@ class Term(object):
     def adjusttofont(self):
         sizes = {size: (height, width, ppemx, ppemy) for (size, height, width, ppemx, ppemy) in self.font.get_sizes()}
         print(f"font sizes: {sizes}")
-        print(f"chosen font size: {self.font.size}")
-        if type(self.font.size) is tuple:
-            (size, sizeother) = self.font.size
+        if len(sizes):
+            print(f"chosen font size: {self.font.size}")
+            if type(self.font.size) is tuple:
+                (size, sizeother) = self.font.size
+            else:
+                size = self.font.size
+            (self.fonty, self.fontx, ppemx, ppemy) = sizes[size]
         else:
-            size = self.font.size
-        (self.fonty, self.fontx, ppemx, ppemy) = sizes[size]
+            (x, y, self.fontx, self.fonty) = self.font.get_rect("#") #FIXME: Ugly fallback.
         if self.font.path.endswith('ttf'):
             self.font.pad = True
         self.surfacex = self.cols*self.fontx
