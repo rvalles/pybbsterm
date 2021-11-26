@@ -145,7 +145,7 @@ class Term(object):
         return
     def setcolorscheme(self, scheme):
         if not scheme in self.colortable:
-            return self.colortable.keys()
+            return list(self.colortable.keys())
         self.color = self.colortable[scheme]
         self.fgcolordefault = len(self.color[0])-1
         self.bgcolordefault = 0
