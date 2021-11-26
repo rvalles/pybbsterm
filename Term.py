@@ -130,10 +130,16 @@ class Term(object):
         self.screen = pygame.display.set_mode((x, y))
         return
     def adjusttofont(self):
+        sizes = {size: (height, width, ppemx, ppemy) for (size, height, width, ppemx, ppemy) in self.font.get_sizes()}
+        print(f"font sizes: {sizes}")
+        print(f"chosen font size: {self.font.size}")
+        if type(self.font.size) is tuple:
+            (size, sizeother) = self.font.size
+        else:
+            size = self.font.size
+        (self.fonty, self.fontx, ppemx, ppemy) = sizes[size]
         if self.font.path.endswith('ttf'):
             self.font.pad = True
-        (x, y, self.fontx, self.fonty) = self.font.get_rect("#") #FIXME: Get from get_sizes() or else.
-        print(self.font.get_sizes())
         self.surfacex = self.cols*self.fontx
         self.surfacey = self.rows*self.fonty
         self.setwindowmode(self.surfacex*self.scale, self.surfacey*self.scale)
