@@ -106,13 +106,7 @@ class Term(object):
         self.cursorx = 1 #column is 1-indexed
         self.cursory = 1 #row is 1-indexed
         self.escape = False
-        #self.color = self.colortable_guess
-        #self.color = self.colortable_syncterm
         self.setcolorscheme('vga')
-        #self.fgcolordefault = (224, 224, 128)
-        #self.bgcolordefault = (32, 16, 0)
-        #self.fgcolordefaultbright = (255, 255, 160)
-        #self.bgcolordefaultbright = (48, 24, 0)
         self.blink = False
         self.bright = False
         self.readevent = pygame.event.custom_type()
