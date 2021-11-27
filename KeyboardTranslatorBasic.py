@@ -107,6 +107,36 @@ class KeyboardTranslatorBasic(object):
             return self.CSI.encode("cp437") + b'23~'
         elif key==pygame.K_F12:
             return self.CSI.encode("cp437") + b'24~'
+        elif key==pygame.K_KP_DIVIDE:
+            return b'/'
+        elif key==pygame.K_KP_MULTIPLY:
+            return b'*'
+        elif key==pygame.K_KP_MINUS:
+            return b'-'
+        elif key==pygame.K_KP_PLUS:
+            return b'+'
+        elif key==pygame.K_KP_PERIOD:
+            return b'.'
+        elif key==pygame.K_KP0:
+            return b'0'
+        elif key==pygame.K_KP1:
+            return b'1'
+        elif key==pygame.K_KP2:
+            return b'2'
+        elif key==pygame.K_KP3:
+            return b'3'
+        elif key==pygame.K_KP4:
+            return b'4'
+        elif key==pygame.K_KP5:
+            return b'5'
+        elif key==pygame.K_KP6:
+            return b'6'
+        elif key==pygame.K_KP7:
+            return b'7'
+        elif key==pygame.K_KP8:
+            return b'8'
+        elif key==pygame.K_KP9:
+            return b'9'
         else:
             print(f"Not sure how to process keycode: {key}")
         return
