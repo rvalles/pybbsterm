@@ -12,6 +12,11 @@ def main():
     parser.add_argument('--fontfile', dest='fontfile', action='store', metavar='fontfile[,size]', help="load font file with size")
     args = parser.parse_args()
     #print(vars(args))
+    if args.colorscheme == "help":
+        from Term import Term
+        term = Term()
+        print(f"Color schemes available: {term.setcolorscheme(args.colorscheme)}")
+        sys.exit(2)
     endpoints = {'serial', 'tcp', 'replay'}.intersection({k: v for k, v in vars(parser.parse_args()).items() if v is not None})
     if len(endpoints) != 1:
         parser.print_usage()

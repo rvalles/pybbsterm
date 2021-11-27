@@ -20,12 +20,14 @@
     * Interface with modems, call remote computers.
     * Requires `pySerial`.
 * Terminal font is settable.
+* Multiple color schemes.
 * Easy to use.
 * MIT License. See LICENSE file.
 
 ## Usage
 * Ensure `Python 3.8+`, `pygame 2.0+`, `pySerial 3.1+` are installed.
 * Run `pybbsterm.py -h` for verbose usage help.
+* Run `pybbsterm.py --scheme help` for list of available color schemes.
 * Use of bitmap fonts is recommended.
   * `Open Type Bitmap` (`.otb`) fonts preferred
   * A good set is `oldschool-pc-fonts` found at: https://int10h.org
