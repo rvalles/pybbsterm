@@ -102,6 +102,8 @@ class Term(object):
         pygame.fastevent.init()
         pygame.display.set_caption("pybbsterm")
         self.encoding = "cp437"
+        self.bell = "stdout"
+        #self.bell = False
         self.cols = 80
         self.rows = 25
         self.eolwrap = True
@@ -430,6 +432,12 @@ class Term(object):
             if byte == 8:
                 #print("BS!")
                 self.cursorx = max(1,self.cursorx-1)
+                continue
+            if byte == 7:
+                if self.bell == "stdout":
+                    print("BELL!!!"+'\a')
+                else:
+                    print("BELL!!!")
                 continue
             char = self.translate(byte.to_bytes(1, byteorder='big'))
             textsurface, textrect = self.font.render(char, fgcolor=self.getfgcolor(), bgcolor=self.getbgcolor())
