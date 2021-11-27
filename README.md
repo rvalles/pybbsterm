@@ -27,8 +27,8 @@
 * Ensure `Python 3.8+`, `pygame 2.0+`, `pySerial 3.1+` are installed.
 * Run `pybbsterm.py -h` for verbose usage help.
 * Use of bitmap fonts is recommended.
-  * Open Type Bitmap (.otb) fonts preferred
-  * A good set is oldschool-pc-fonts found at https://int10h.org
+  * `Open Type Bitmap` (`.otb`) fonts preferred
+  * A good set is `oldschool-pc-fonts` found at: https://int10h.org
 * Keyboard shortcuts
   * `Alt-x` will exit.
   * `PrtScn` and `Shift-F12` will start/finish capture of incoming bytes into file.
