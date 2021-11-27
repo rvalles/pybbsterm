@@ -100,7 +100,7 @@ class Term(object):
         pygame.init()
         pygame.freetype.init()
         pygame.fastevent.init()
-        pygame.display.set_caption("pybbsterm")
+        pygame.display.set_caption("pybbsterm (alt-x to quit)")
         self.encoding = "cp437"
         self.bell = "stdout"
         #self.bell = False
