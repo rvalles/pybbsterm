@@ -104,6 +104,7 @@ class Term(object):
         self.encoding = "cp437"
         self.cols = 80
         self.rows = 25
+        self.eolwrap = True
         self.cursorx = 1 #column is 1-indexed
         self.cursory = 1 #row is 1-indexed
         self.escape = False
@@ -428,7 +429,17 @@ class Term(object):
             textsurface, textrect = self.font.render(char, fgcolor=self.getfgcolor(), bgcolor=self.getbgcolor())
             self.surface.blit(textsurface, (self.getcursorx(), self.getcursory()))
             #print(char, textsurface, textrect, self.cursorx*self.fontx, self.cursory*self.fonty)
-            self.cursorx = min(self.cursorx+1, self.cols)
+            if self.eolwrap:
+                self.cursorx += 1
+                if self.cursorx > self.cols: #wrap
+                    self.cursorx = 1
+                    if self.cursory == self.rows:
+                        self.surface.scroll(0, -self.fonty)
+                        self.surface.fill(color=self.getbgcolor(), rect=(0, self.fonty*(self.rows-1), self.fontx*self.cols, self.fonty*self.rows))
+                    else:
+                        self.cursory += 1
+            else:
+                self.cursorx = min(self.cursorx+1, self.cols)
         return
     def capturetoggle(self):
         if self.capture:
