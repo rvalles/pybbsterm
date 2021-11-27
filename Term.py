@@ -391,6 +391,8 @@ class Term(object):
         return
     def processoutput(self, data):
         for byte in data:
+            if not byte: #NUL
+                continue
             if self.controlsequence:
                 if byte >= 0x40 and byte <= 0x7e:
                     cmd = byte.to_bytes(1, byteorder='big')
