@@ -417,6 +417,12 @@ class Term(object):
                     continue
                 self.cursory += 1
                 continue
+            if byte == 12:
+                #print("FF!")
+                self.cursorx = 1
+                self.cursory = 1
+                self.surface.fill(color=self.bgcolor)
+                continue
             if byte == 13:
                 #print("CR!")
                 self.cursorx = 1
