@@ -100,6 +100,7 @@ class Term(object):
         pygame.init()
         pygame.freetype.init()
         pygame.fastevent.init()
+        pygame.display.set_caption("pybbsterm")
         self.encoding = "cp437"
         self.cols = 80
         self.rows = 25
