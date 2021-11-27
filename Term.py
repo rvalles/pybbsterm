@@ -197,6 +197,7 @@ class Term(object):
         #return (255, 192, 192)
         return self.getfgcolor()
     def processcontrol(self, cmd, data):
+        #print(f"CS ESC[{data.decode(self.encoding)}{cmd.decode(self.encoding)}")
         if cmd == b'A': #Cursor Up
             params = data.split(b';')
             if len(params) != 1:
@@ -207,6 +208,7 @@ class Term(object):
             else:
                 p1 = int(params[0])
             self.cursory = max(self.cursory-p1, 1)
+            #print(f"CS A {p1}")
             return
         if cmd == b'B': #Cursor Down
             params = data.split(b';')
@@ -218,6 +220,7 @@ class Term(object):
             else:
                 p1 = int(params[0])
             self.cursory = min(self.cursory+p1, self.rows)
+            #print(f"CS B {p1}")
             return
         if cmd == b'C': #Cursor Right
             params = data.split(b';')
@@ -229,6 +232,7 @@ class Term(object):
             else:
                 p1 = int(params[0])
             self.cursorx = min(self.cursorx+p1, self.cols)
+            #print(f"CS C {p1}")
             return
         if cmd == b'D': #Cursor Left
             params = data.split(b';')
@@ -240,6 +244,7 @@ class Term(object):
             else:
                 p1 = int(params[0])
             self.cursorx = max(self.cursorx-p1, 1)
+            #print(f"CS D {p1}")
             return
         if cmd == b'H' or cmd == b'f': #Cursor Position
             params = data.split(b';')
@@ -268,6 +273,7 @@ class Term(object):
                 p1 = int(params[0])
             else:
                 p1 = 0
+            #print(f"CS J p1={p1}")
             if p1 == 2: #Erase entire screen
                 self.cursorx = 1
                 self.cursory = 1
@@ -302,6 +308,7 @@ class Term(object):
                 params[0] = b'0'
             for param in params:
                 pX = int(param)
+                #print(f"CS m pX: {pX}")
                 if pX == 0: #Default attribute, white on black
                     self.blink = False
                     self.bright = False
