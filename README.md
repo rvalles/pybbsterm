@@ -1,5 +1,7 @@
 # pybbsterm: Terminal emulator for calling BBSs.
 
+![The Quantum Wormhole screenshot](https://b.rvalles.net/unsorted/pybbsterm_tqw.png)
+
 ## Use cases (non-exhaustive)
 * Explore terminal protocols.
 * Connect to BBSs.
@@ -27,6 +29,7 @@
 ## Usage
 * Ensure `Python 3.8+`, `pygame 2.0+`, `pySerial 3.1+` are installed.
 * Run `pybbsterm.py -h` for verbose usage help.
+* Run `pybbsterm.py -t bbs.erb.pw` to connect to The Quantum Wormhole.
 * Run `pybbsterm.py --scheme help` for list of available color schemes.
 * Use of bitmap fonts is recommended.
   * `Open Type Bitmap` (`.otb`) fonts preferred
