@@ -13,8 +13,12 @@ class EndpointTCP(object):
             raise ValueError()
         self.readevent = kwargs["readevent"]
         self.closeevent = kwargs["closeevent"]
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((self.host, self.port))
+        try:
+            self.sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+            self.sock.connect((self.host, self.port))
+        except:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.connect((self.host, self.port))
         return
     def loop(self):
         while True:
